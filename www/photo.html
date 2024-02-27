@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Preview Example</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('deviceready', onDeviceReady, false);
+
+        function onDeviceReady() {
+            // Options for the camera preview
+            var cameraPreviewOpts = {
+                x: 0,
+                y: 0,
+                width: window.screen.width,
+                height: window.screen.height,
+                camera: 'front',
+                tapPhoto: true,
+                previewDrag: true,
+                toBack: true,
+                alpha: 1
+            };
+
+            // Start the camera preview
+            window['CameraPreview'].startCamera(cameraPreviewOpts);
+
+            // Set a listener to handle the tap event and take a picture
+            document.getElementById('takePicture').addEventListener('click', function () {
+                window['CameraPreview'].takePicture({width: 640, height: 640, quality: 85}, function (base64PictureData) {
+                    // Handle the picture data here
+                    console.log('Picture taken:', base64PictureData);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <button id="takePicture">Take Picture</button>
+</body>
+</html>

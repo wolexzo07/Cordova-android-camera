@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <title>Camera App</title>
+		 
+    </head>
+    <body>
+     
+            <h1>Camera Testing</h1>
+            <div class="contain">
+			
+				<img src="img/logo.png" style="margin:20px;" id="photo"/>
+				
+				<button style="width:200px;height:40px;padding:5px;margin:20px;" id="Capture">Take Photo</button>
+				
+				<div id="msg"></div>
+               
+            </div>
+        
+       <script src="cordova.js"></script>
+		<script src="js/jquery-3.7.1.min.js"></script>
+        <script src="js/index.js"></script>
+
+		<script>
+            let app = {
+                init: function(){
+                    document.getElementById('Capture').addEventListener('click', app.takephoto);
+                },
+                takephoto: function(){
+						
+						let opts = {
+							quality: 100,
+							//destinationType: Camera.DestinationType.FILE_URI,
+							destinationType: Camera.DestinationType.DATA_URL, // base 64 format
+							sourceType: Camera.PictureSourceType.CAMERA,
+							encodingType: Camera.EncodingType.JPEG,
+							mediaType: Camera.MediaType.PICTURE,
+							cameraDirection: Camera.Direction.FRONT,
+							targetWidth: 240,
+							targetHeight: 320,
+							//allowEdit: true,
+							//correctOrientation: true,
+							//saveToPhotoAlbum:true
+						};
+		
+						navigator.camera.getPicture(app.ftw, app.wtf, opts);
+  
+                },
+                ftw: function(imgURI){
+                    //document.getElementById('photo').src = imgURI;
+					var image = document.getElementById('photo');
+					image.src = "data:image/jpeg;base64," + imgURI;
+                    //document.getElementById('msg').textContent = imgURI;
+                },
+                wtf: function(msg){
+                    document.getElementById('msg').textContent = msg;
+                }
+            };
+            
+            document.addEventListener('deviceready', app.init);
+        </script>
+    </body>
+</html>
